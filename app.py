@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import cv2
 from PIL import Image
-import face_recognition
 from sklearn.cluster import KMeans
 
 def local_css(file_name):
@@ -22,18 +21,18 @@ def get_dominant_color(image, mask, k=5):
 
 def process_image(uploaded_file):
     image = np.array(Image.open(uploaded_file))
-    face_locations = face_recognition.face_locations(image)
+    # Convert image to grayscale for face detection
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    # Use OpenCV's Haar cascade for face detection
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4, minSize=(30, 30))
     palette = []
-    if face_locations:
-        face_landmarks_list = face_recognition.face_landmarks(image)
-        for face_landmarks in face_landmarks_list:
-            all_face_landmarks = np.array([
-                point for landmark_type in face_landmarks.values() for point in landmark_type
-            ])
-            mask = np.zeros(image.shape[:2], dtype=np.uint8)
-            cv2.fillConvexPoly(mask, cv2.convexHull(all_face_landmarks), 255)
-            dominant_colors = get_dominant_color(image, mask, k=5)
-            palette.extend(dominant_colors)
+    for (x, y, w, h) in faces:
+        face_img = image[y:y+h, x:x+w]
+        mask = np.ones(face_img.shape[:2], dtype="uint8") * 255  # full face mask
+        dominant_colors = get_dominant_color(face_img, mask, k=5)
+        palette.extend(dominant_colors)
+        break  # Process only the first detected face for simplicity
     return palette
 
 st.markdown("<h1>Discover</h1>", unsafe_allow_html=True)

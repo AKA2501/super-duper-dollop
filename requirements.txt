@@ -1,7 +1,6 @@
 streamlit
 numpy
 opencv-python-headless
-face_recognition
 scikit-learn
 pillow
 matplotlib
