@@ -1,0 +1,40 @@
+
+body, .stApp {
+    color: #030308 !important;
+    background-color: #33f4f7 !important; 
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h1 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 48px;  /* Increased size for 'Discover' */
+    font-family: 'Verdana', sans-serif;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Verdana', sans-serif;  /* Header font */
+}
+
+.info {
+    text-align: justify;
+    text-justify: inter-word;
+    margin: 0 20px 20px 20px;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;  /* Paragraph font */
+}
+
+div.stButton > button {
+    background-color: #4a4a6a;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 24px;
+}
+
+div.streamlit-expanderHeader, div.streamlit-expander {
+    background-color: #4a4a6a;
+}
