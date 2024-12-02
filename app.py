@@ -2,31 +2,14 @@ import streamlit as st
 import numpy as np
 import cv2
 from PIL import Image
-import dlib
+import face_recognition
 from sklearn.cluster import KMeans
-import os
-import urllib.request
-import bz2
 
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-def setup_model():
-    url = 'http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2'
-    output_file = 'shape_predictor_68_face_landmarks.dat'
-    compressed_file = output_file + ".bz2"
-    if not os.path.exists(compressed_file):
-        urllib.request.urlretrieve(url, compressed_file)
-    if not os.path.exists(output_file):
-        with bz2.BZ2File(compressed_file, 'rb') as f_in, open(output_file, 'wb') as f_out:
-            f_out.write(f_in.read())
-
-setup_model()
 local_css("style.css")
-
-face_detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 def get_dominant_color(image, mask, k=5):
     masked_image = cv2.bitwise_and(image, image, mask=mask)
@@ -39,23 +22,21 @@ def get_dominant_color(image, mask, k=5):
 
 def process_image(uploaded_file):
     image = np.array(Image.open(uploaded_file))
-    faces = face_detector(image, 1)
+    face_locations = face_recognition.face_locations(image)
     palette = []
-    if faces:
-        face = faces[0]
-        landmarks = predictor(image, face)
-        landmarks_np = np.array([(p.x, p.y) for p in landmarks.parts()])
-        face_mask = np.zeros(image.shape[:2], dtype=np.uint8)
-        cv2.fillConvexPoly(face_mask, landmarks_np[0:17], 1)
-        hair_mask = np.zeros(image.shape[:2], dtype=np.uint8)
-        cv2.fillConvexPoly(hair_mask, landmarks_np[0:27], 0)
-        hair_mask = cv2.bitwise_not(face_mask)
-        skin_colors = get_dominant_color(image, face_mask, k=2)
-        hair_colors = get_dominant_color(image, hair_mask, k=3)
-        palette = skin_colors + hair_colors
+    if face_locations:
+        face_landmarks_list = face_recognition.face_landmarks(image)
+        for face_landmarks in face_landmarks_list:
+            all_face_landmarks = np.array([
+                point for landmark_type in face_landmarks.values() for point in landmark_type
+            ])
+            mask = np.zeros(image.shape[:2], dtype=np.uint8)
+            cv2.fillConvexPoly(mask, cv2.convexHull(all_face_landmarks), 255)
+            dominant_colors = get_dominant_color(image, mask, k=5)
+            palette.extend(dominant_colors)
     return palette
 
-st.markdown("<h1>Discover!!!</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Discover</h1>", unsafe_allow_html=True)
 st.markdown("""
 <p class='header'>Unlock the Power of Colors with Us</p>
 
