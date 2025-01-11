@@ -91,7 +91,7 @@ def process_image(uploaded_file):
 # ------------------------------ APP LAYOUT ------------------------------#
 
 # 1) Large Title & short description
-st.markdown("<h1 class='main-header'>TONE HUE</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-header'>COLOR AURA</h1>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class='company-description' style="font-size: 18px; font-weight: bold; line-height: 1.6;">
