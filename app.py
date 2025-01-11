@@ -95,7 +95,7 @@ st.markdown("<h1 class='main-header'>COLOR AURA</h1>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class='company-description' style="font-size: 18px; font-weight: bold; line-height: 1.6;">
-Tone Hue is your go-to destination for professional color analysis consultations.
+Colour Aura is your go-to destination for professional color analysis consultations.
 Our team of experienced color experts will guide you in discovering the perfect color palette
 that complements your unique features and personal style.
 We specialize in color analysis for makeup, clothing, and overall personal image enhancement,
