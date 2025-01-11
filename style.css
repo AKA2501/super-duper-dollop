@@ -1,40 +1,143 @@
+/* Import Noe Display font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noe+Display:wght@400;700&display=swap');
 
+/* Gradient background from top (light gray) to pink */
 body, .stApp {
-    color: #030308 !important;
-    background-color: #c292a1 !important; 
+    background: linear-gradient(180deg, #d9d9d9 0%, #ffb6c1 100%) !important;
+    color: #000 !important;
+    margin: 0;
+    padding: 0;
     font-family: 'Times New Roman', Times, serif;
 }
 
-h1 {
-    font-weight: bold;
+/* Main Title: TONE HUE */
+.main-header {
+    font-family: 'Noe Display', serif;
     text-align: center;
-    font-size: 48px;  /* Increased size for 'Discover' */
-    font-family: 'Verdana', sans-serif;
+    font-size: 64px;  /* Increased size */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    letter-spacing: 2px;
 }
 
-.header {
-    font-size: 24px;
-    font-weight: bold;
+/* Smaller, slimmer text for the short description under the main title */
+.company-description {
     text-align: center;
-    margin: 20px 0;
-    font-family: 'Verdana', sans-serif;  /* Header font */
-}
-
-.info {
-    text-align: justify;
-    text-justify: inter-word;
-    margin: 0 20px 20px 20px;
     font-size: 16px;
-    font-family: 'Times New Roman', Times, serif;  /* Paragraph font */
+    line-height: 1.5;
+    margin: 0 auto 40px auto;
+    max-width: 700px;
+    color: #333;
 }
 
+/* The sub-heading for the color palette etc. */
+.sub-heading {
+    font-family: 'Noe Display', serif;
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #000;
+    text-align: center;
+}
+
+/* Heading for "Upload an Image" */
+.upload-heading {
+    text-align: center;
+    font-family: 'Noe Display', serif;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+/* Make the file uploader bigger and center it */
+div.stFileUploader {
+    max-width: 400px !important;
+    margin: 0 auto !important;
+}
+
+/* The color-circle container: 5 slices inside. */
+.color-circle {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin: 20px auto;  /* centers horizontally */
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+/* Each wedge slice in the circle */
+.slice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px; 
+    height: 300px;
+    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+    /* We'll rotate each wedge by var(--startAngle) degrees around the center */
+    transform-origin: 50% 50%;
+    transform: rotate(calc(var(--startAngle) * 1deg));
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+/* On hover, slightly brighten & show hex code tooltip */
+.slice:hover {
+    filter: brightness(1.2);
+}
+.slice:hover::after {
+    content: attr(data-color);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #000;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* Additional content at the bottom with sub-headers in larger format */
+.extra-content {
+    max-width: 800px;
+    margin: 40px auto;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.7;
+}
+.extra-content h2 {
+    font-family: 'Noe Display', serif;
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #000;
+}
+.extra-content ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.extra-content li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    list-style-type: circle;
+}
+
+/* Streamlit's default button style override */
 div.stButton > button {
-    background-color: #4a4a6a;
-    border-radius: 5px;
-    color: #fff;
-    padding: 8px 24px;
+    background-color: #4a4a6a !important;
+    border: none !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    padding: 8px 24px !important;
+    font-size: 14px !important;
+    margin-top: 8px !important;
 }
 
-div.streamlit-expanderHeader, div.streamlit-expander {
-    background-color: #4a4a6a;
+/* Remove extra column borders, if any */
+.css-1lcbmhc, .css-18e3th9, .css-1kyxreq {
+    border: none !important;
+    box-shadow: none !important;
 }
